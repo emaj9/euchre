@@ -49,7 +49,8 @@ class Player:
     hand: Pile
     team: t.Literal[0, 1]
     trick_count: int
+    name : str
 
     @staticmethod
-    def make_empty(cls):
-        return Player(hand=Pile(), team=0, trick_count=0)
+    def make_empty(cls, name):
+        return Player(hand=Pile(), team=0, trick_count=0, name=name)
