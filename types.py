@@ -1,3 +1,4 @@
+import random
 import typing as t
 from dataclasses import dataclass
 
@@ -21,6 +22,9 @@ class Pile:
     @staticmethod
     def make_deck(cls):
         return Pile(Card(suit, rank) for suit in SUITS for rank in RANKS)
+
+    def shuffle(self):
+        random.shuffle(self.cards)
 
     def __init__(self, cards=None):
         self.cards = cards or []
