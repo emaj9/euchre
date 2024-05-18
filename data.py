@@ -5,6 +5,12 @@ from dataclasses import dataclass
 SUITS = ['clubs', 'diamonds', 'spades', 'hearts']
 RANKS = [9,10,11,12,13,14]
 
+def suit_color(suit):
+    if suit == 'spades' or suit == 'clubs':
+        return 'black'
+    else:
+        return 'red'
+
 @dataclass
 class Card:
     suit: str
@@ -17,11 +23,23 @@ class Card:
             (100 if self.suit == trump else 0) + \
             (50 if self.suit == lead else 0)
 
+    def game_suit(self, trump):
+        if self.rank != 11:
+            return self.suit
+
+        if suit_color(self.suit) == suit_color(trump):
+            return trump
+        else:
+            return self.suit
+
+    def follows_suit(self, lead_suit, trump):
+        return self.game_suit(trump) == lead_suit
+
 @dataclass
 class Pile:
     @staticmethod
-    def make_deck(cls):
-        return Pile(Card(suit, rank) for suit in SUITS for rank in RANKS)
+    def make_deck():
+        return Pile([Card(suit, rank) for suit in SUITS for rank in RANKS])
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -52,5 +70,5 @@ class Player:
     name : str
 
     @staticmethod
-    def make_empty(cls, name):
+    def make_empty(name):
         return Player(hand=Pile(), team=0, trick_count=0, name=name)
